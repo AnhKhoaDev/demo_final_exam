@@ -40,14 +40,16 @@
     </div>
     <div class="d-flex mb-3 justify-content-between">
         <a class="btn btn-green" th:href="@{/home/create}">Thêm mới</a>
-        <div class="right d-flex">
-            <select class="form-select me-2" style="width: 200px;">
-                <option selected>Chọn loại bất động sản</option>
+        <form class="right d-flex" th:action="@{/home/search}" method="post">
+            <select name="searchTypeService" class="form-select me-2" style="width: 200px;">
+                <option value="">Chọn loại bất động sản</option>
+                <option value="Nhà đất">Nhà đất</option>
+                <option value="Đất">Đất</option>
             </select>
-            <input type="text" class="form-control me-2" placeholder="Tên khách hàng" style="width: 200px;">
-            <button class="btn btn-primary">Tìm kiếm</button>
-        </div>
-
+            <input type="text" name="searchNameCustomer" class="form-control me-2" placeholder="Tên khách hàng"
+                   style="width: 200px;">
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
     </div>
     <table class="table table-bordered">
         <thead>
@@ -70,7 +72,10 @@
             <td th:text="${transaction.typeService}"></td>
             <td th:text="${transaction.price}"></td>
             <td th:text="${transaction.area}"></td>
-            <td><a th:href="@{/home/detail/{id}(id = ${transaction.id})}" href="#" class="text-red">Chi tiết</a></td>
+            <td>
+                <a th:href="@{/home/detail/{id}(id=${transaction.id})}" href="#" class="text-red">Chi tiết</a>
+                <a th:href="@{/home/update/{id}(id = ${transaction.id})}" href="#" class="text-red">Cập nhật</a>
+            </td>
         </tr>
         </tbody>
     </table>

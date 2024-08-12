@@ -48,4 +48,41 @@ public class TransactionService implements ITransactionService {
     public void delete(Long id) {
         transactionRepository.deleteById(id);
     }
+
+    @Override
+    public void update(Transaction transaction, Long id) {
+        transactionRepository.save(transaction);
+    }
+
+    @Override
+    public List<TransactionDTO> findAllByTypeServiceOrNameCustomer(String searchTypeService, String searchNameCustomer) {
+        List<Transaction> transactions = transactionRepository.findAllByTypeServiceOrNameCustomer(searchTypeService, searchNameCustomer);
+
+        return transactions.stream().map(transaction ->
+                TransactionDTO.builder()
+                        .id(transaction.getId())
+                        .transactionCode(transaction.getTransactionCode())
+                        .name(transaction.getCustomer().getName())
+                        .transactionDate(transaction.getTransactionDate())
+                        .typeService(transaction.getTypeService())
+                        .price(transaction.getPrice())
+                        .area(transaction.getArea())
+                        .build()).toList();
+    }
+
+    @Override
+    public List<TransactionDTO> findAllByTypeServiceAndNameCustomer(String searchTypeService, String searchNameCustomer) {
+        List<Transaction> transactions = transactionRepository.findAllByTypeServiceAndNameCustomer(searchTypeService, searchNameCustomer);
+
+        return transactions.stream().map(transaction ->
+                TransactionDTO.builder()
+                        .id(transaction.getId())
+                        .transactionCode(transaction.getTransactionCode())
+                        .name(transaction.getCustomer().getName())
+                        .transactionDate(transaction.getTransactionDate())
+                        .typeService(transaction.getTypeService())
+                        .price(transaction.getPrice())
+                        .area(transaction.getArea())
+                        .build()).toList();
+    }
 }

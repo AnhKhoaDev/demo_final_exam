@@ -78,52 +78,23 @@
             <div class="col-sm-8" th:text="${transaction.customer.email}"></div>
         </div>
         <div class="text-center mt-4">
-            <button type="button" class="btn btn-yellow me-2" onclick="confirmDeleteTransaction([[${transaction.id}]])">Xóa</button>
-            <a type="button" class="btn btn-yellow me-2" th:href="@{/home/delete/{id}(id = ${transaction.id})}">Xóa</a>
+            <button type="button" class="btn btn-yellow me-2" th:data-href="${transaction.id}" onclick="confirmDelete(this)">Xóa</button>
             <button type="button" class="btn btn-blue" onclick="history.back()">Quay lại</button>
         </div>
     </div>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        function confirmDeleteTransaction(transactionId) {
+        function confirmDelete(button) {
+            // Lấy ID của giao dịch từ thuộc tính data-href của button
+            let id = button.getAttribute('data-href');
             // Hiển thị hộp thoại xác nhận
-            var confirmation = confirm("Bạn có muốn xóa giao dịch này không?");
-
-            if (confirmation) {
-                // Xóa giao dịch (có thể gửi yêu cầu tới server hoặc thực hiện xóa trên client)
-                // Ví dụ: gọi API để xóa giao dịch
-                deleteTransaction(transactionId);
-            } else {
-                // Không xóa, quay lại màn hình "Danh sách giao dịch"
-                // (Ở đây bạn có thể không cần làm gì, vì chỉ cần không thực hiện xóa)
-                console.log("Giao dịch không bị xóa.");
+            if (confirm("Bạn có muốn xóa giao dịch này không?")) {
+                // Nếu chọn "Có", chuyển hướng đến URL xóa
+                window.location.href = '/home/delete/' + id;
+            }else {
+                window.location.href = '/home';
             }
-        }
-
-        function deleteTransaction(transactionId) {
-            // Giả sử bạn có API để xóa giao dịch
-            // Sử dụng Fetch API hoặc AJAX để gửi yêu cầu xóa đến server
-            console.log("Xóa giao dịch có ID:", transactionId);
-
-            // Ví dụ sử dụng Fetch API để gửi yêu cầu DELETE
-            fetch('/transactions/' + transactionId, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Xóa thành công, bạn có thể thực hiện cập nhật giao diện hoặc chuyển hướng
-                        alert("Giao dịch đã được xóa thành công!");
-                        // Quay lại danh sách giao dịch (nếu cần)
-                        window.location.href = '/transaction-list';
-                    } else {
-                        // Xử lý lỗi
-                        alert("Đã xảy ra lỗi khi xóa giao dịch.");
-                    }
-                })
-                .catch(error => {
-                    console.error('Lỗi:', error);
-                });
         }
     </script>
 </body>

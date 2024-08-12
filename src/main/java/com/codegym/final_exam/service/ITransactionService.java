@@ -15,4 +15,10 @@ public interface ITransactionService {
     Transaction findById(Long id);
 
     void delete(Long id);
+
+    void update(Transaction transaction, Long id);
+
+    List<TransactionDTO> findAllByTypeServiceOrNameCustomer(String searchTypeService, String searchNameCustomer);
+
+    List<TransactionDTO> findAllByTypeServiceAndNameCustomer(String searchTypeService, String searchNameCustomer);
 }
